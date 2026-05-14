@@ -1,17 +1,14 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/shared/Container";
 import { cn } from "@/lib/cn";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/sobre", label: "Sobre" },
-  { href: "/faq", label: "FAQ" },
+  { to: "/", label: "Home" },
+  { to: "/sobre", label: "Sobre" },
+  { to: "/faq", label: "FAQ" },
 ];
 
 type HeaderProps = {
@@ -19,7 +16,7 @@ type HeaderProps = {
 };
 
 export function Header({ onOpenAgent }: HeaderProps) {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -46,15 +43,14 @@ export function Header({ onOpenAgent }: HeaderProps) {
         className={cn(
           "fixed inset-x-0 top-0 z-40 transition-all duration-[260ms]",
           scrolled
-            ? "bg-[#f7f4ee]/95 backdrop-blur-sm shadow-[0_1px_2px_rgb(0_0_0/0.04)]"
+            ? "bg-[#f7f4ee]/95 shadow-[0_1px_2px_rgb(0_0_0/0.04)] backdrop-blur-sm"
             : "bg-transparent"
         )}
       >
         <Container>
-          <div className="flex h-16 items-center justify-between gap-4 md:h-18">
-            {/* Logo */}
+          <div className="md:h-18 flex h-16 items-center justify-between gap-4">
             <Link
-              href="/"
+              to="/"
               className="flex items-center gap-2 focus-visible:outline-[#c58a6b]"
               aria-label="HealthCare Pilates — página inicial"
             >
@@ -66,15 +62,17 @@ export function Header({ onOpenAgent }: HeaderProps) {
               </span>
             </Link>
 
-            {/* Desktop nav */}
-            <nav className="hidden items-center gap-6 md:flex" aria-label="Navegação principal">
-              {navLinks.map(({ href, label }) => (
+            <nav
+              className="hidden items-center gap-6 md:flex"
+              aria-label="Navegação principal"
+            >
+              {navLinks.map(({ to, label }) => (
                 <Link
-                  key={href}
-                  href={href}
+                  key={to}
+                  to={to}
                   className={cn(
                     "text-sm transition-colors duration-[180ms]",
-                    pathname === href
+                    pathname === to
                       ? "font-medium text-[#2c3a2e]"
                       : "text-[#8a8a85] hover:text-[#1a1a1a]"
                   )}
@@ -84,7 +82,6 @@ export function Header({ onOpenAgent }: HeaderProps) {
               ))}
             </nav>
 
-            {/* CTA + burger */}
             <div className="flex items-center gap-3">
               <Button
                 size="sm"
@@ -107,17 +104,16 @@ export function Header({ onOpenAgent }: HeaderProps) {
           </div>
         </Container>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <div className="border-t border-[#e6e2da] bg-[#f7f4ee] px-5 py-4 md:hidden">
             <nav className="flex flex-col gap-1" aria-label="Navegação mobile">
-              {navLinks.map(({ href, label }) => (
+              {navLinks.map(({ to, label }) => (
                 <Link
-                  key={href}
-                  href={href}
+                  key={to}
+                  to={to}
                   className={cn(
                     "rounded-md px-3 py-2.5 text-sm transition-colors",
-                    pathname === href
+                    pathname === to
                       ? "font-medium text-[#2c3a2e]"
                       : "text-[#8a8a85] hover:bg-[#1a1a1a]/5 hover:text-[#1a1a1a]"
                   )}
@@ -125,7 +121,7 @@ export function Header({ onOpenAgent }: HeaderProps) {
                   {label}
                 </Link>
               ))}
-              <div className="mt-3 pt-3 border-t border-[#e6e2da]">
+              <div className="mt-3 border-t border-[#e6e2da] pt-3">
                 <Button
                   size="sm"
                   className="w-full"

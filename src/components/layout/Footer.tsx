@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { Separator } from "@/components/ui/separator";
@@ -73,13 +73,13 @@ export function Footer() {
             </h3>
             <ul className="flex flex-col gap-2">
               {[
-                { href: "/", label: "Home" },
-                { href: "/sobre", label: "Sobre nós" },
-                { href: "/faq", label: "FAQ" },
-              ].map(({ href, label }) => (
-                <li key={href}>
+                { to: "/", label: "Home" },
+                { to: "/sobre", label: "Sobre nós" },
+                { to: "/faq", label: "FAQ" },
+              ].map(({ to, label }) => (
+                <li key={to}>
                   <Link
-                    href={href}
+                    to={to}
                     className="text-sm text-[#f7f4ee]/60 transition-colors hover:text-[#f7f4ee]"
                   >
                     {label}
@@ -108,7 +108,7 @@ export function Footer() {
         <div className="flex flex-col items-start justify-between gap-3 py-6 text-xs text-[#f7f4ee]/40 sm:flex-row sm:items-center">
           <span>© {new Date().getFullYear()} HealthCare Pilates. Todos os direitos reservados.</span>
           <Link
-            href="/privacidade"
+            to="/privacidade"
             className="transition-colors hover:text-[#f7f4ee]/70"
           >
             Política de privacidade

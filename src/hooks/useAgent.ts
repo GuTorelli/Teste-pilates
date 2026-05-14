@@ -1,4 +1,3 @@
-"use client";
 
 import { useState, useCallback, useRef } from "react";
 import { streamSofia } from "@/lib/claude/stream";

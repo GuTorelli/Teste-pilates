@@ -2,84 +2,105 @@
 
 Site institucional da **HealthCare Pilates** — rede premium de estúdios de pilates clínico com agente de IA conversacional integrado.
 
-## Visão geral
-
-Três páginas (Home, Sobre, FAQ) + agente "Sofia" alimentado pelo Claude que guia visitantes até o agendamento de aula experimental via WhatsApp. Design editorial premium, responsivo, foco em conversão.
+> **Branches:** esta versão (`claude/vite-migration`) é a **migração para Vite + React Router** com foco em performance máxima. A versão Next.js mora em `claude/pilates-studio-website-y9piN`.
 
 ## Stack
 
-- **Next.js 15** (App Router, SSG)
-- **Tailwind CSS 4** + design tokens CSS custom properties
-- **shadcn/ui** + Radix UI (acessibilidade nativa)
-- **Framer Motion** (microinterações com `prefers-reduced-motion`)
-- **`@anthropic-ai/sdk`** (streaming client-side, modelo `claude-opus-4-7`)
-- **Lucide React** (icons)
-- **Playwright** (E2E smoke tests)
-- **Vercel** (deploy recomendado)
+- **Vite 6** (build ultra-rápido, HMR instantâneo)
+- **React 19** + **React Router 7** (SPA com lazy routes)
+- **Tailwind CSS 4** via plugin Vite oficial (`@tailwindcss/vite`)
+- **react-helmet-async** (meta tags por página + JSON-LD)
+- **shadcn/ui** + **Radix UI** (componentes acessíveis)
+- **Framer Motion** (microinterações, respeita `prefers-reduced-motion`)
+- **`@anthropic-ai/sdk`** (streaming Claude `claude-opus-4-7`)
+- **vite-plugin-compression** (brotli + gzip pré-comprimidos)
+
+## Performance (build atual)
+
+| Recurso | Bruto | Gzip | Brotli |
+|---|---:|---:|---:|
+| `index.html` | 2.14 kB | 0.93 kB | 0.71 kB |
+| CSS total | 43.02 kB | 8.21 kB | 6.77 kB |
+| `react-vendor` | 48.50 kB | 17.13 kB | 15.02 kB |
+| `ui-vendor` (Radix + Lucide) | 51.12 kB | 16.23 kB | 14.03 kB |
+| `motion` (Framer) | 111.43 kB | 36.65 kB | 31.99 kB |
+| `index` (app shell) | 231.43 kB | 73.86 kB | 62.49 kB |
+| **AgentDrawer (lazy)** | 196.90 kB | 60.26 kB | 51.51 kB |
+| Páginas (chunks individuais) | ~9 kB | ~4 kB | ~3 kB |
+
+> **Initial load (Home, brotli):** ~131 KB. Agente carregado sob demanda.
 
 ## Setup local
 
 ```bash
-# Pré-requisitos: Node.js ≥ 20, pnpm
-
+# Requisitos: Node 20+, pnpm 10+
 pnpm install
-pnpm dev
-# → http://localhost:3000
+pnpm dev   # http://localhost:3000
 ```
 
-## Configurar o agente Sofia
+## Configurar agente Sofia
 
-1. Obtenha sua chave em [console.anthropic.com](https://console.anthropic.com)
-2. Abra o site e clique no FAB verde (canto inferior direito)
-3. Cole a chave no campo (`sk-ant-...`) e salve
-4. A chave fica salva **apenas no seu navegador** (localStorage)
+1. Obtenha chave em [console.anthropic.com](https://console.anthropic.com)
+2. Abra o site → clique no FAB verde (canto inferior direito)
+3. Cole `sk-ant-...` no campo do drawer
+4. A chave fica salva **só no seu navegador** (`localStorage`)
 
-> ⚠️ **Modo demo**: a chave trafega só no cliente. Para produção, migre para Vercel Edge Function (ver `PRD.md §12 / Roadmap v1.1`).
+> ⚠️ Modo demo. Para produção real, mover para backend (Netlify Function / Edge Function).
 
 ## Scripts
 
 | Comando | Descrição |
 |---|---|
-| `pnpm dev` | Dev server (localhost:3000) |
-| `pnpm build` | Build de produção |
-| `pnpm start` | Servidor de produção |
+| `pnpm dev` | Vite dev server |
+| `pnpm build` | TypeScript check + Vite build (dist/) |
+| `pnpm preview` | Servir build localmente |
 | `pnpm lint` | ESLint |
-| `pnpm typecheck` | TypeScript sem emitir |
-| `pnpm test:e2e` | Playwright E2E |
+| `pnpm typecheck` | `tsc -b --noEmit` |
+| `pnpm test:e2e` | Playwright |
 
-## Estrutura resumida
+## Deploy no Netlify (apontando pro repo)
+
+1. Mescle a PR no `main`
+2. [app.netlify.com](https://app.netlify.com) → **Add new site** → **Import an existing project**
+3. Selecione `gutorelli/Teste-pilates` → branch `main`
+4. O `netlify.toml` já está configurado:
+   - Build: `pnpm build`
+   - Publish: `dist`
+   - SPA redirect: `/* → /index.html (200)`
+   - Cache headers: assets imutáveis com `max-age=31536000`
+5. (Opcional) env var `VITE_SITE_URL` com seu domínio final
+
+A cada `push` para `main`, deploy automático.
+
+## Estrutura
 
 ```
 src/
-├── app/           # Páginas Next.js (/, /sobre, /faq)
+├── main.tsx              # entry: HelmetProvider + BrowserRouter
+├── App.tsx               # routes + agent state
+├── index.css             # Tailwind + tokens
+├── pages/                # Home, Sobre, FAQ, NotFound (lazy)
 ├── components/
-│   ├── layout/    # Header, Footer, CookieBanner, ClientLayout
-│   ├── sections/  # Seções de cada página
-│   ├── agent/     # AgentFAB, AgentDrawer, Sofia UI
-│   └── ui/        # Primitivos (Button, Input, Accordion…)
-├── content/       # Copy e dados estruturados das páginas
-├── hooks/         # useAgent, useApiKey, useRateLimit…
-└── lib/           # claude/, lead/, seo, cn, storage…
+│   ├── layout/           # Header, Footer, CookieBanner
+│   ├── sections/         # seções editoriais por página
+│   ├── agent/            # FAB, Drawer, Messages, Input, Settings
+│   ├── shared/           # Container, Reveal, Seo, SectionHeading
+│   └── ui/               # primitivos (Button, Input, Accordion...)
+├── content/              # copy + dados estruturados
+├── hooks/                # useAgent, useApiKey, useRateLimit
+├── lib/                  # claude/, lead/, seo, cn, storage
+└── styles/tokens.css     # design tokens CSS custom properties
 ```
 
 ## Substituir antes do go-live
 
-Busque `{{` no código para encontrar todos os placeholders:
-
-- `src/content/faq.ts` — valores de planos, cidades
-- `src/content/units.ts` — endereços e telefones reais das 6 unidades
-- `public/images/` — substituir SVGs de placeholder por fotos reais
-- `src/lib/seo.ts` — `SITE_URL` com domínio real
-
-## Deploy (Vercel)
-
-```bash
-# 1. Push para main no GitHub
-# 2. Conecte no Vercel: Import Project → Next.js detectado automaticamente
-# 3. (Opcional) adicionar NEXT_PUBLIC_SITE_URL como env var
-```
+- `public/images/*.svg` → fotos reais (estúdio + instrutores, formato AVIF/WebP)
+- `src/content/units.ts` → endereços e telefones reais
+- `src/content/faq.ts` → valores definitivos de planos
+- `VITE_SITE_URL` na Netlify
+- (Opcional v1.1) backend para chave Claude
 
 ## Documentação
 
-- [`PRD.md`](./PRD.md) — Requisitos de produto, posicionamento, KPIs
-- [`SPEC.md`](./SPEC.md) — Especificação técnica completa
+- [`PRD.md`](./PRD.md) — Requisitos de produto
+- [`SPEC.md`](./SPEC.md) — Especificação técnica

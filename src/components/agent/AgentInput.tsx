@@ -1,4 +1,3 @@
-"use client";
 
 import { useRef, useEffect } from "react";
 import { SendHorizonal } from "lucide-react";

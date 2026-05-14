@@ -1,30 +1,24 @@
-"use client";
-
-import { useState } from "react";
-import dynamic from "next/dynamic";
 import { Manifesto } from "@/components/sections/Manifesto";
 import { Method } from "@/components/sections/Method";
 import { Team } from "@/components/sections/Team";
 import { StudioGallery } from "@/components/sections/StudioGallery";
 import { ClosingCTA } from "@/components/sections/ClosingCTA";
+import { Seo } from "@/components/shared/Seo";
 import { sobreContent } from "@/content/sobre";
 
-const AgentDrawer = dynamic(
-  () => import("@/components/agent/AgentDrawer").then((m) => ({ default: m.AgentDrawer })),
-  { ssr: false }
-);
+type Props = { onOpenAgent: () => void };
 
-export default function SobrePage() {
-  const [agentOpen, setAgentOpen] = useState(false);
+export default function SobrePage({ onOpenAgent }: Props) {
   const { hero, manifesto, method, team, studio, closingCta } = sobreContent;
 
   return (
     <>
-      <Manifesto
-        hero={hero}
-        manifesto={manifesto}
-        imageSrc="/images/hero-sobre.svg"
+      <Seo
+        title="Sobre — HealthCare Pilates"
+        description="Conheça a história, o método clínico e os profissionais por trás da HealthCare Pilates."
+        path="/sobre"
       />
+      <Manifesto hero={hero} manifesto={manifesto} imageSrc="/images/hero-sobre.svg" />
       <Method
         eyebrow={method.eyebrow}
         title={method.title}
@@ -41,9 +35,8 @@ export default function SobrePage() {
         title={closingCta.title}
         body=""
         ctaLabel={closingCta.ctaLabel}
-        onCta={() => setAgentOpen(true)}
+        onCta={onOpenAgent}
       />
-      <AgentDrawer open={agentOpen} onOpenChange={setAgentOpen} />
     </>
   );
 }

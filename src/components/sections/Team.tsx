@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Reveal } from "@/components/shared/Reveal";
@@ -31,12 +30,12 @@ export function Team({ eyebrow, title, members }: Props) {
             <Reveal key={member.name} delay={i * 0.08}>
               <article className="flex flex-col gap-4">
                 <div className="relative aspect-[3/4] overflow-hidden rounded-[10px] bg-[#e6e2da]">
-                  <Image
+                  <img
                     src={member.photo}
                     alt={`Foto de ${member.name}`}
-                    fill
-                    className="object-cover grayscale transition-all duration-[420ms] hover:grayscale-0"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover grayscale transition-all duration-[420ms] hover:grayscale-0"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">

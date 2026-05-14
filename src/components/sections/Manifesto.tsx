@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "@/components/shared/Container";
 import { Reveal } from "@/components/shared/Reveal";
 
@@ -11,19 +10,17 @@ type Props = {
 export function Manifesto({ hero, manifesto, imageSrc }: Props) {
   return (
     <>
-      {/* Hero editorial */}
       <section
         className="relative flex min-h-[60vh] items-end pb-16 pt-32"
         aria-label="Cabeçalho Sobre nós"
       >
         <div className="absolute inset-0 z-0">
-          <Image
+          <img
             src={imageSrc}
             alt="Estúdio HealthCare Pilates"
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-black/10" />
         </div>
@@ -37,7 +34,6 @@ export function Manifesto({ hero, manifesto, imageSrc }: Props) {
         </Container>
       </section>
 
-      {/* Manifesto */}
       <section className="section-py bg-white" aria-label="Manifesto da marca">
         <Container narrow>
           <Reveal>

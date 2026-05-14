@@ -16,7 +16,7 @@ export default defineConfig({
     { name: "Mobile Safari", use: { ...devices["iPhone 15"] } },
   ],
   webServer: {
-    command: "pnpm build && pnpm start",
+    command: "pnpm build && pnpm preview --port 3000",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

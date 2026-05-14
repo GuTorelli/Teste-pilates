@@ -1,4 +1,3 @@
-"use client";
 
 import { Container } from "@/components/shared/Container";
 import { Button } from "@/components/ui/button";

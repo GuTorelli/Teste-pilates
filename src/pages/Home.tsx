@@ -1,7 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
 import { CredibilityStrip } from "@/components/sections/CredibilityStrip";
 import { WhyHealthCare } from "@/components/sections/WhyHealthCare";
@@ -9,25 +5,27 @@ import { Modalities } from "@/components/sections/Modalities";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { HowToStart } from "@/components/sections/HowToStart";
 import { ClosingCTA } from "@/components/sections/ClosingCTA";
+import { Seo } from "@/components/shared/Seo";
 import { homeContent } from "@/content/home";
 
-const AgentDrawer = dynamic(
-  () => import("@/components/agent/AgentDrawer").then((m) => ({ default: m.AgentDrawer })),
-  { ssr: false }
-);
+type Props = { onOpenAgent: () => void };
 
-export default function HomePage() {
-  const [agentOpen, setAgentOpen] = useState(false);
+export default function HomePage({ onOpenAgent }: Props) {
   const { hero, credibility, why, modalities, testimonials, howToStart, closingCta } =
     homeContent;
 
   return (
     <>
+      <Seo
+        title="HealthCare Pilates — Movimento com propósito clínico"
+        description="Estúdios premium de pilates com método clínico, instrutores certificados e atendimento personalizado em São Paulo."
+        path="/"
+      />
       <Hero
         eyebrow={hero.eyebrow}
         title={hero.title}
         subtitle={hero.subtitle}
-        primaryCta={{ label: hero.primaryCta, onClick: () => setAgentOpen(true) }}
+        primaryCta={{ label: hero.primaryCta, onClick: onOpenAgent }}
         secondaryCta={{ label: hero.secondaryCta, href: "/sobre" }}
         imageSrc="/images/hero-home.svg"
         imageAlt="Aluna praticando pilates no aparelho em estúdio HealthCare"
@@ -49,9 +47,8 @@ export default function HomePage() {
         title={closingCta.title}
         body={closingCta.body}
         ctaLabel={closingCta.ctaLabel}
-        onCta={() => setAgentOpen(true)}
+        onCta={onOpenAgent}
       />
-      <AgentDrawer open={agentOpen} onOpenChange={setAgentOpen} />
     </>
   );
 }

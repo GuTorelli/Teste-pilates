@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "@/components/shared/Container";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Reveal } from "@/components/shared/Reveal";
@@ -22,15 +21,17 @@ export function StudioGallery({ eyebrow, title, gallery }: Props) {
             <Reveal key={src} delay={i * 0.06}>
               <div
                 className={`relative overflow-hidden rounded-[10px] bg-[#e6e2da] ${
-                  i === 0 ? "sm:col-span-2 sm:row-span-2 aspect-square" : "aspect-video"
+                  i === 0
+                    ? "aspect-square sm:col-span-2 sm:row-span-2"
+                    : "aspect-video"
                 }`}
               >
-                <Image
+                <img
                   src={src}
                   alt={`Estúdio HealthCare Pilates — imagem ${i + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-[420ms] hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-[420ms] hover:scale-105"
                 />
               </div>
             </Reveal>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2C3A2E" />
+
+    <!-- Preconnect / font preload for premium LCP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap"
+    />
+
+    <!-- Default meta (overridden per page by react-helmet-async) -->
+    <title>HealthCare Pilates — Movimento com propósito clínico</title>
+    <meta
+      name="description"
+      content="Estúdios premium de pilates com método clínico, instrutores certificados e atendimento personalizado em São Paulo."
+    />
+
+    <!-- JSON-LD LocalBusiness (static for crawlers) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "HealthClub",
+        "name": "HealthCare Pilates",
+        "url": "https://healthcare-pilates.netlify.app",
+        "image": "https://healthcare-pilates.netlify.app/og-default.svg",
+        "priceRange": "R$$$",
+        "areaServed": "São Paulo, SP",
+        "description": "Rede premium de estúdios de pilates com método clínico.",
+        "openingHours": ["Mo-Fr 06:00-22:00", "Sa 08:00-14:00"]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

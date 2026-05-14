@@ -1,4 +1,3 @@
-"use client";
 
 import { useState } from "react";
 import { KeyRound, Trash2 } from "lucide-react";

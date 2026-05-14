@@ -1,0 +1,99 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+@theme {
+  --color-bg: rgb(247 244 238);
+  --color-surface: rgb(255 255 255);
+  --color-fg: rgb(26 26 26);
+  --color-fg-muted: rgb(138 138 133);
+  --color-brand: rgb(44 58 46);
+  --color-brand-fg: rgb(247 244 238);
+  --color-accent: rgb(197 138 107);
+  --color-border: rgb(230 226 218);
+  --color-success: rgb(76 110 78);
+  --color-danger: rgb(168 76 64);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans:
+    "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.04);
+  --shadow-lift: 0 8px 28px rgb(0 0 0 / 0.1);
+
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #f7f4ee;
+    color: #1a1a1a;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    margin: 0;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #c58a6b;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: rgb(197 138 107 / 0.2);
+  }
+}
+
+@layer utilities {
+  .text-display-xl {
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .text-display-lg {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .text-display-md {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .text-eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    letter-spacing: 0.18em;
+  }
+  .font-display {
+    font-family: "Fraunces", Georgia, serif;
+  }
+  .font-sans {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+  }
+  .section-py {
+    padding-top: clamp(4rem, 8vw, 8rem);
+    padding-bottom: clamp(4rem, 8vw, 8rem);
+  }
+  .section-py-tight {
+    padding-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: clamp(3rem, 5vw, 5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}

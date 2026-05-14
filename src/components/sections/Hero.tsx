@@ -1,6 +1,3 @@
-"use client";
-
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/shared/Container";
 
@@ -28,20 +25,17 @@ export function Hero({
       className="relative flex min-h-[88vh] items-end pb-16 pt-32 lg:min-h-[92vh]"
       aria-label="Banner principal"
     >
-      {/* Background image */}
       <div className="absolute inset-0 z-0">
-        <Image
+        <img
           src={imageSrc}
           alt={imageAlt}
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
+          fetchPriority="high"
+          decoding="async"
+          className="h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-black/10" />
       </div>
 
-      {/* Content */}
       <Container className="relative z-10">
         <div className="max-w-2xl">
           {eyebrow && (
@@ -61,11 +55,7 @@ export function Hero({
             {subtitle}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button
-              size="lg"
-              onClick={primaryCta.onClick}
-              aria-label={primaryCta.label}
-            >
+            <Button size="lg" onClick={primaryCta.onClick} aria-label={primaryCta.label}>
               {primaryCta.label}
             </Button>
             {secondaryCta && (
@@ -73,7 +63,7 @@ export function Hero({
                 variant="secondary"
                 size="lg"
                 asChild
-                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                className="border-white/30 text-white hover:border-white/50 hover:bg-white/10"
               >
                 <a href={secondaryCta.href}>{secondaryCta.label}</a>
               </Button>
