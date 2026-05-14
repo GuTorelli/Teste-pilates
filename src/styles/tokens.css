@@ -1,0 +1,40 @@
+:root {
+  --color-bg: 247 244 238;
+  --color-surface: 255 255 255;
+  --color-fg: 26 26 26;
+  --color-fg-muted: 138 138 133;
+  --color-brand: 44 58 46;
+  --color-brand-fg: 247 244 238;
+  --color-accent: 197 138 107;
+  --color-border: 230 226 218;
+  --color-success: 76 110 78;
+  --color-danger: 168 76 64;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 999px;
+
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.04);
+  --shadow-lift: 0 8px 28px rgb(0 0 0 / 0.1);
+
+  --space-section-y: clamp(4rem, 8vw, 8rem);
+  --space-section-y-tight: clamp(3rem, 5vw, 5rem);
+
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 180ms;
+  --dur-base: 260ms;
+  --dur-slow: 420ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}
